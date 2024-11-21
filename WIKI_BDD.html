@@ -1,10 +1,111 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Wiki BDD : Création d'un compte utilisateur</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .code-block {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-$END$
+<h1>Wiki : Création d'un compte utilisateur</h1>
+<p>
+    Ce document décrit le processus de création d’un compte utilisateur en utilisant le langage ubiquitaire du BDD
+    (<strong>Behavior Driven Development</strong>), une méthode centrée sur les comportements du système et leurs résultats attendus.
+</p>
+
+<h2>Description du processus</h2><br>
+<p>La création d’un compte utilisateur inclut :</p><br>
+<ul>
+    <li>Saisie d’un <strong>email valide et unique</strong>.</li><br>
+    <li>Saisie d’un <strong>mot de passe fort</strong>.</li><br>
+    <li>Saisie obligatoire d’un <strong>nom</strong> et d’un <strong>prénom</strong>.</li><br>
+    <li>Enregistrement automatique de la <strong>date et l’heure</strong> d’inscription.</li>
+</ul>
+
+<h2>Scénarios BDD</h2>
+
+<h3>1. Inscription réussie</h3>
+<div class="code-block">
+    <code>
+        Feature: Création de compte utilisateur
+
+        Scenario: Inscription avec des informations valides<br>
+        Given un utilisateur sur la page "Créer un compte"<br>
+        When il saisit un email valide "exemple@test.com"<br>
+        And il saisit un mot de passe fort "Passw0rd@123"<br>
+        And il saisit un nom "Dupont"<br>
+        And il saisit un prénom "Jean"<br>
+        And il soumet le formulaire<br>
+        Then le compte est créé avec succès<br>
+        And un message "Bienvenue, Jean !" s'affiche<br>
+        And la date et l’heure d’inscription sont enregistrées<br>
+    </code>
+</div>
+
+<h3>2. Échec d'inscription - Email non valide</h3>
+<div class="code-block">
+    <code>
+        Scenario: Échec de l'inscription avec un email non valide<br>
+        Given un utilisateur sur la page "Créer un compte"<br>
+        When il saisit un email invalide "test.com"<br>
+        And il saisit un mot de passe fort "Passw0rd@123"<br>
+        And il saisit un nom "Dupont"<br>
+        And il saisit un prénom "Jean"<br>
+        And il soumet le formulaire<br>
+        Then un message d'erreur "Veuillez saisir un email valide" s'affiche<br>
+        And le compte n'est pas créé<br>
+    </code>
+</div>
+
+<h3>3. Échec d'inscription - Mot de passe faible</h3>
+<div class="code-block">
+    <code>
+        Scenario: Échec de l'inscription avec un mot de passe faible<br>
+        Given un utilisateur sur la page "Créer un compte"<br>
+        When il saisit un email valide "exemple@test.com"<br>
+        And il saisit un mot de passe faible "12345"<br>
+        And il saisit un nom "Dupont"<br>
+        And il saisit un prénom "Jean"<br>
+        And il soumet le formulaire<br>
+        Then un message d'erreur "Le mot de passe doit être plus fort" s'affiche<br>
+        And le compte n'est pas créé<br>
+    </code>
+</div>
+
+<footer>
+    <p>Wiki BDD - Création de compte utilisateur</p>
+</footer>
 </body>
 </html>
